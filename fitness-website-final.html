@@ -1,0 +1,1969 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Velocity Club - Elite Sports & Leisure</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Reset default styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #fff;
+            overflow-x: hidden;
+            cursor: none;
+        }
+
+        /* Custom Cursor */
+        .cursor {
+            position: fixed;
+            width: 24px;
+            height: 24px;
+            border: 2px solid #28a745;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 9999;
+            transition: all 0.15s ease, width 0.3s ease, height 0.3s ease;
+            mix-blend-mode: difference;
+        }
+
+        .cursor-follower {
+            position: fixed;
+            width: 8px;
+            height: 8px;
+            background: #fd7e14;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 9998;
+            transition: width 0.4s ease, height 0.4s ease;
+        }
+
+        .cursor.active {
+            width: 60px;
+            height: 60px;
+            background: rgba(40, 167, 69, 0.2);
+            border: 2px solid transparent;
+        }
+
+        .cursor.click {
+            width: 40px;
+            height: 40px;
+            border: 2px solid #28a745;
+            background: rgba(40, 167, 69, 0.1);
+        }
+
+        /* Loader */
+        .loader {
+            border: 8px solid #f3f3f3;
+            border-top: 8px solid #28a745;
+            border-bottom: 8px solid #fd7e14;
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            animation: spin 1.5s linear infinite;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 9999;
+        }
+
+        @keyframes spin {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        /* Fade-in Animation for Sections */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeIn 1s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Header Section */
+        header {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
+                        url('https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80') 
+                        no-repeat center center/cover;
+            height: 100vh;
+            position: relative;
+            color: #fff;
+        }
+
+        nav {
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.85));
+            padding: 1.5rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        nav .logo {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #28a745;
+            letter-spacing: -1px;
+            position: relative;
+        }
+
+        nav .logo::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(to right, #28a745, #fd7e14);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+
+        nav .logo:hover::after {
+            transform: scaleX(1);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2.5rem;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #333;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: color 0.3s ease, transform 0.3s ease;
+            position: relative;
+        }
+
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #28a745;
+            transition: width 0.3s ease;
+        }
+
+        nav ul li a:hover::after {
+            width: 100%;
+        }
+
+        nav ul li a:hover {
+            color: #28a745;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 1.2rem;
+        }
+
+        .social-icons a {
+            display: inline-block;
+            width: 36px;
+            height: 36px;
+            background: #f8f9fa;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .social-icons a:hover {
+            transform: translateY(-5px);
+            background: #28a745;
+            color: white;
+        }
+
+        /* Hero Section */
+        .hero-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            width: 90%;
+            max-width: 900px;
+        }
+
+        .hero-content h1 {
+            font-size: 3.8rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero-content p {
+            font-size: 1.4rem;
+            margin-bottom: 2.5rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            font-weight: 300;
+        }
+
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .cta-buttons .btn {
+            background: #000;
+            color: #fff;
+            padding: 1rem 2rem;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .cta-buttons .btn:hover {
+            background: #28a745;
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 10px 25px rgba(40, 167, 69, 0.3);
+        }
+
+        .cta-buttons .btn.secondary {
+            background: transparent;
+            border: 2px solid white;
+            color: white;
+        }
+
+        .cta-buttons .btn.secondary:hover {
+            background: white;
+            color: #333;
+        }
+
+        .refer-friend {
+            position: absolute;
+            bottom: 2rem;
+            left: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 1rem 1.5rem;
+            border-radius: 50px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .refer-friend:hover {
+            transform: translateY(-5px);
+        }
+
+        .refer-friend img {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+            border: 2px solid white;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .refer-friend img:hover {
+            transform: scale(1.1);
+        }
+
+        .refer-friend .btn {
+            background: #000;
+            color: #fff;
+            padding: 0.6rem 1.5rem;
+            text-decoration: none;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .refer-friend .btn:hover {
+            background: #28a745;
+            transform: scale(1.05);
+        }
+
+        .carousel-dots {
+            position: absolute;
+            bottom: 1.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 0.8rem;
+        }
+
+        .carousel-dots .dot {
+            width: 12px;
+            height: 12px;
+            background: #fff;
+            border-radius: 50%;
+            opacity: 0.5;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .carousel-dots .dot.active {
+            opacity: 1;
+            background: #28a745;
+            transform: scale(1.2);
+        }
+
+        /* Features Section */
+        .features {
+            padding: 6rem 2rem;
+            background: #f8f9fa;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .features h2 {
+            font-size: 2.8rem;
+            font-weight: 800;
+            margin-bottom: 3rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .features h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(to right, #28a745, #fd7e14);
+            border-radius: 2px;
+        }
+
+        .feature-cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            background: #fff;
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(to right, #28a745, #fd7e14);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+            z-index: -1;
+        }
+
+        .feature-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-card img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin-bottom: 1.5rem;
+            object-fit: cover;
+            border: 3px solid #f8f9fa;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #222;
+        }
+
+        .feature-card p {
+            color: #555;
+            font-size: 1rem;
+        }
+
+        /* Discover Excellence Section */
+        .discover {
+            display: flex;
+            max-width: 1200px;
+            margin: 6rem auto;
+            gap: 3rem;
+            padding: 0 2rem;
+            align-items: center;
+        }
+
+        .discover .image {
+            flex: 1;
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+            transform: perspective(1000px) rotateY(0deg);
+            transition: transform 0.5s ease;
+        }
+
+        .discover .image:hover {
+            transform: perspective(1000px) rotateY(-5deg);
+        }
+
+        .discover .image img {
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .discover .image:hover img {
+            transform: scale(1.05);
+        }
+
+        .discover .image .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(40, 167, 69, 0.8), rgba(253, 126, 20, 0.8));
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.2rem;
+            font-weight: 700;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .discover .image:hover .overlay {
+            opacity: 1;
+        }
+
+        .discover .content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .discover .content h2 {
+            font-size: 2.6rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            line-height: 1.3;
+        }
+
+        .discover .content p {
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+            color: #555;
+        }
+
+        .discover .content ul {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .discover .content ul li {
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .discover .content ul li i {
+            color: #28a745;
+            font-size: 1.2rem;
+        }
+
+        .discover .content .btn {
+            background: #000;
+            color: #fff;
+            padding: 1rem 2.5rem;
+            text-decoration: none;
+            border-radius: 8px;
+            align-self: flex-start;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            font-weight: 600;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .discover .content .btn:hover {
+            background: #28a745;
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 10px 25px rgba(40, 167, 69, 0.3);
+        }
+
+        /* Facilities Section */
+        .facilities {
+            padding: 6rem 2rem;
+            background: #fff;
+            text-align: center;
+            position: relative;
+        }
+
+        .facilities::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 10px;
+            background: linear-gradient(to right, #28a745, #fd7e14);
+        }
+
+        .facilities h2 {
+            font-size: 2.8rem;
+            font-weight: 800;
+            margin-bottom: 2.5rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .facilities h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(to right, #28a745, #fd7e14);
+            border-radius: 2px;
+        }
+
+        .search-bar {
+            margin-bottom: 3rem;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            position: relative;
+        }
+
+        .search-bar input {
+            padding: 1rem 1.5rem;
+            width: 100%;
+            border: 2px solid #eaeaea;
+            border-radius: 50px;
+            font-size: 1rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .search-bar input:focus {
+            border-color: #28a745;
+            box-shadow: 0 5px 20px rgba(40, 167, 69, 0.2);
+            outline: none;
+        }
+
+        .search-bar i {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #777;
+        }
+
+        .facility-cards {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .facility-card {
+            background: #f8f9fa;
+            padding: 0;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            overflow: hidden;
+            text-align: left;
+        }
+
+        .facility-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .facility-card img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 12px 12px 0 0;
+            transition: transform 0.5s ease;
+        }
+
+        .facility-card:hover img {
+            transform: scale(1.1);
+        }
+
+        .facility-card .card-content {
+            padding: 2rem;
+        }
+
+        .facility-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.8rem;
+            color: #222;
+        }
+
+        .facility-card p {
+            margin-bottom: 1.5rem;
+            color: #555;
+            font-size: 1rem;
+        }
+
+        .facility-card .features-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 1.5rem;
+        }
+
+        .facility-card .features-list span {
+            background: rgba(40, 167, 69, 0.1);
+            color: #28a745;
+            padding: 0.3rem 0.8rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .facility-card .btn {
+            background: #000;
+            color: #fff;
+            padding: 0.6rem 1.5rem;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .facility-card .btn:hover {
+            background: #28a745;
+            transform: translateY(-3px);
+        }
+
+        /* Athlete Empowerment Section */
+        .empowerment {
+            display: flex;
+            max-width: 1200px;
+            margin: 6rem auto;
+            gap: 3rem;
+            padding: 0 2rem;
+            align-items: center;
+            background: linear-gradient(to right, #f8f9fa, #fff);
+            border-radius: 15px;
+            padding: 3rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        }
+
+        .empowerment .image {
+            flex: 1;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+            transform: perspective(1000px) rotateY(0deg);
+            transition: transform 0.5s ease;
+        }
+
+        .empowerment .image:hover {
+            transform: perspective(1000px) rotateY(5deg);
+        }
+
+        .empowerment .image img {
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .empowerment .image:hover img {
+            transform: scale(1.05);
+        }
+
+        .empowerment .content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 2.5rem;
+        }
+
+        .empowerment .content h2 {
+            font-size: 2.6rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .empowerment .content .item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .empowerment .content .item:hover {
+            transform: translateX(10px);
+        }
+
+        .empowerment .content .item .icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #fd7e14, #ff9e44);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 1.8rem;
+            font-weight: 600;
+            flex-shrink: 0;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 5px 15px rgba(253, 126, 20, 0.3);
+        }
+
+        .empowerment .content .item:hover .icon {
+            transform: rotate(15deg) scale(1.1);
+        }
+
+        .empowerment .content .item h3 {
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+            color: #222;
+        }
+
+        .empowerment .content .item p {
+            color: #555;
+            font-size: 1rem;
+        }
+
+        /* Pricing Section */
+        .pricing {
+            padding: 6rem 2rem;
+            background: #f8f9fa;
+            text-align: center;
+            position: relative;
+        }
+
+        .pricing::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 10px;
+            background: linear-gradient(to right, #28a745, #fd7e14);
+        }
+
+        .pricing h2 {
+            font-size: 2.8rem;
+            font-weight: 800;
+            margin-bottom: 2.5rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .pricing h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(to right, #28a745, #fd7e14);
+            border-radius: 2px;
+        }
+
+        .pricing-plans {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .pricing-plan {
+            background: #fff;
+            padding: 3rem 2.5rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            width: 350px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .pricing-plan.popular {
+            transform: scale(1.05);
+            border: 3px solid #28a745;
+        }
+
+        .pricing-plan.popular::before {
+            content: 'POPULAR';
+            position: absolute;
+            top: 20px;
+            right: -30px;
+            background: #28a745;
+            color: white;
+            padding: 0.3rem 2.5rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            transform: rotate(45deg);
+            z-index: 2;
+        }
+
+        .pricing-plan:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .pricing-plan h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: #222;
+        }
+
+        .pricing-plan .price {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            color: #28a745;
+            position: relative;
+            display: inline-block;
+        }
+
+        .pricing-plan .price::before {
+            content: '$';
+            font-size: 1.2rem;
+            position: absolute;
+            top: 0;
+            left: -15px;
+        }
+
+        .pricing-plan .price::after {
+            content: '/season';
+            font-size: 1rem;
+            font-weight: 400;
+            position: absolute;
+            bottom: 5px;
+            right: -60px;
+            color: #777;
+        }
+
+        .pricing-plan ul {
+            list-style: none;
+            margin-bottom: 2rem;
+            text-align: left;
+        }
+
+        .pricing-plan ul li {
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .pricing-plan ul li i {
+            color: #28a745;
+            font-size: 1.2rem;
+        }
+
+        .pricing-plan .btn {
+            background: #000;
+            color: #fff;
+            padding: 1rem 2rem;
+            text-decoration: none;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            display: block;
+            font-weight: 600;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .pricing-plan .btn:hover {
+            background: #28a745;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(40, 167, 69, 0.3);
+        }
+
+        /* Team Section */
+        .team {
+            padding: 6rem 2rem;
+            background: #fff;
+            text-align: center;
+            position: relative;
+        }
+
+        .team h2 {
+            font-size: 2.8rem;
+            font-weight: 800;
+            margin-bottom: 3rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .team h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(to right, #28a745, #fd7e14);
+            border-radius: 2px;
+        }
+
+        .team-members {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .team-member {
+            background: #f8f9fa;
+            padding: 2.5rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .team-member:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .team-member::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(to right, #28a745, #fd7e14);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+            z-index: 1;
+        }
+
+        .team-member:hover::before {
+            transform: scaleX(1);
+        }
+
+        .team-member img {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            margin-bottom: 1.5rem;
+            object-fit: cover;
+            border: 5px solid #fff;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .team-member:hover img {
+            transform: scale(1.1);
+        }
+
+        .team-member h3 {
+            font-size: 1.6rem;
+            margin-bottom: 0.5rem;
+            color: #222;
+        }
+
+        .team-member .position {
+            color: #28a745;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .team-member p {
+            color: #555;
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            background: #fff;
+            border-radius: 50%;
+            color: #28a745;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .social-links a:hover {
+            background: #28a745;
+            color: white;
+            transform: translateY(-5px);
+        }
+
+        /* Footer Section */
+        footer {
+            background: linear-gradient(to bottom, #222, #111);
+            color: #fff;
+            padding: 5rem 0 2rem;
+            position: relative;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .footer-content h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1.8rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .footer-content h3::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: linear-gradient(to right, #28a745, #fd7e14);
+        }
+
+        .footer-content ul {
+            list-style: none;
+        }
+
+        .footer-content ul li {
+            margin-bottom: 1rem;
+        }
+
+        .footer-content ul li a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .footer-content ul li a i {
+            color: #28a745;
+            font-size: 0.9rem;
+        }
+
+        .footer-content ul li a:hover {
+            color: #fff;
+        }
+
+        .newsletter form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        .newsletter input {
+            padding: 0.8rem 1.2rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .newsletter input::placeholder {
+            color: #aaa;
+        }
+
+        .newsletter .btn {
+            background: linear-gradient(to right, #28a745, #fd7e14);
+            color: #fff;
+            padding: 1rem;
+            text-decoration: none;
+            border-radius: 50px;
+            text-align: center;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+        }
+
+        .newsletter .btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .copyright {
+            text-align: center;
+            margin-top: 4rem;
+            font-size: 0.9rem;
+            color: #aaa;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #28a745, #fd7e14);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 100;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .hero-content h1 {
+                font-size: 3rem;
+            }
+
+            .hero-content p {
+                font-size: 1.2rem;
+            }
+
+            .feature-cards, .team-members {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .facility-cards {
+                grid-template-columns: 1fr;
+                max-width: 600px;
+            }
+
+            .footer-content {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav ul {
+                display: none;
+            }
+
+            .hero-content h1 {
+                font-size: 2.2rem;
+            }
+
+            .hero-content p {
+                font-size: 1.1rem;
+            }
+
+            .discover, .empowerment {
+                flex-direction: column;
+            }
+
+            .discover .image img, .empowerment .image img {
+                height: 350px;
+            }
+
+            .feature-cards, .team-members {
+                grid-template-columns: 1fr;
+            }
+
+            .pricing-plans {
+                gap: 2rem;
+            }
+
+            .pricing-plan {
+                width: 100%;
+                max-width: 400px;
+            }
+
+            .pricing-plan.popular {
+                transform: scale(1);
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+
+            .search-bar input {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-content h1 {
+                font-size: 1.8rem;
+            }
+
+            .cta-buttons .btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .refer-friend {
+                flex-direction: column;
+                text-align: center;
+                width: calc(100% - 40px);
+                left: 20px;
+                right: 20px;
+                border-radius: 12px;
+            }
+        }
+    
+/* Athlete Journey Styles */
+.athlete-journey {
+  padding: 4rem 2rem;
+  background: #fff;
+  text-align: center;
+}
+.journey-track {
+  display: flex;
+  gap: 2rem;
+  overflow-x: auto;
+  padding: 2rem 0;
+}
+.journey-step {
+  min-width: 180px;
+  background: #28a745;
+  color: white;
+  border-radius: 10px;
+  padding: 1.2rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+.journey-step span {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  color: #fff7d4;
+}
+
+/* Metrics Styles */
+.metrics {
+  padding: 4rem 2rem;
+  background: #f8f9fa;
+  text-align: center;
+}
+.metric-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: center;
+}
+.metric {
+  background: #fff;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+  width: 220px;
+}
+.metric progress {
+  width: 100%;
+  height: 20px;
+  border-radius: 10px;
+  overflow: hidden;
+  appearance: none;
+}
+.metric progress::-webkit-progress-bar {
+  background-color: #eee;
+}
+.metric progress::-webkit-progress-value {
+  background-color: #28a745;
+}
+
+/* Gallery Section */
+.gallery-images {
+  display: flex;
+  gap: 1.5rem;
+  overflow-x: auto;
+  padding: 1rem 0;
+}
+.gallery-images img {
+  height: 200px;
+  border-radius: 12px;
+  object-fit: cover;
+}
+
+
+/* Circular Meter Styles */
+.circular-metrics {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+.circle-card {
+  text-align: center;
+}
+.circle {
+  width: 120px;
+  height: 120px;
+  position: relative;
+}
+.circle svg {
+  width: 120px;
+  height: 120px;
+  transform: rotate(-90deg);
+}
+.circle circle {
+  fill: none;
+  stroke-width: 12;
+  stroke: #eee;
+}
+.circle .bar {
+  stroke: #28a745;
+  stroke-dasharray: 314;
+  stroke-dashoffset: 314;
+  transition: stroke-dashoffset 1s ease;
+}
+.circle .circle-value {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(90deg);
+  font-weight: bold;
+  font-size: 1rem;
+  color: #333;
+}
+
+/* Left Scroll Fade Animation */
+.fade-left {
+  opacity: 0;
+  transform: translateX(-30px);
+  animation: fadeLeft 1s ease-out forwards;
+}
+@keyframes fadeLeft {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+</style>
+</head>
+<body>
+    <!-- Custom Cursor -->
+    <div class="cursor"></div>
+    <div class="cursor-follower"></div>
+
+    <!-- Loader -->
+    <div class="loader"></div>
+
+    <!-- Back to Top Button -->
+    <div class="back-to-top">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <!-- Header Section -->
+    <header class="fade-in">
+        <nav>
+            <div class="logo">Velocity Club</div>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Facilities</a></li>
+                <li><a href="#">Pricing</a></li>
+                <li><a href="#">Team</a></li>
+                <li><a href="#">Blog</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+            <div class="social-icons">
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+        </nav>
+        <div class="hero-content">
+            <h1>Elevate Your Game, Enhance Your Life</h1>
+            <p>Velocity Club offers world-class sports facilities, elite coaching, and a vibrant community for athletes of all levels.</p>
+            <div class="cta-buttons">
+                <a href="#" class="btn"><i class="fas fa-mobile-alt"></i> Download Our App</a>
+                <a href="#" class="btn secondary"><i class="fas fa-running"></i> Join as Athlete</a>
+                <a href="#" class="btn"><i class="fas fa-user-plus"></i> Join the Club</a>
+                <a href="#" class="btn secondary"><i class="fas fa-calendar-alt"></i> Book a Tour</a>
+            </div>
+        </div>
+        <div class="refer-friend">
+            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e" alt="Profile 1">
+            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d" alt="Profile 2">
+            <img src="https://media.istockphoto.com/id/852401732/photo/happy-personal-trainer-working-at-the-gym.jpg?s=612x612&w=0&k=20&c=m4Wk3lVvjEFIHbiAfUuFNBwEhvvSgf4Vv5ib9JUsrJk=" alt="Profile 3">
+            <span>Refer a Friend & Get 1 Month Free</span>
+            <a href="#" class="btn">Share Now</a>
+        </div>
+        <div class="carousel-dots">
+            <div class="dot active"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        </div>
+    </header>
+
+    <!-- Features Section -->
+    <section class="features fade-in">
+        <h2>Why Choose Velocity Club</h2>
+        <div class="feature-cards">
+            <div class="feature-card">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQXTZbzr5r8LpHZiEkh8bK1RiaCW8jQb5LKSA&s" alt="Tennis Player">
+                <h3>Elite Facilities</h3>
+                <p>Olympic-grade courts and fields with premium turf and lighting systems for optimal performance at any time.</p>
+            </div>
+            <div class="feature-card">
+                <img src="https://images.unsplash.com/photo-1556817411-31ae72fa3ea0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Tennis Court">
+                <h3>Expert Coaching</h3>
+                <p>World-class trainers with professional experience to help you reach your peak performance.</p>
+            </div>
+            <div class="feature-card">
+                <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Runner">
+                <h3>Community Focus</h3>
+                <p>Join a vibrant community of athletes with regular tournaments, social events, and networking opportunities.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Discover Excellence Section -->
+    <section class="discover fade-in">
+        <div class="image">
+            <img src="https://images.unsplash.com/photo-1518604666860-9ed391f76460?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Tennis Player">
+            <div class="overlay">Premier Courts</div>
+        </div>
+        <div class="content">
+            <h2>Where Excellence Meets Performance</h2>
+            <p>Velocity Club offers state-of-the-art facilities designed to help athletes of all levels achieve their maximum potential. Our premium courts and fields are meticulously maintained to professional standards.</p>
+            
+            <ul>
+                <li><i class="fas fa-check-circle"></i> 15 professional-grade tennis courts with various surfaces</li>
+                <li><i class="fas fa-check-circle"></i> Olympic-sized swimming pool with diving facilities</li>
+                <li><i class="fas fa-check-circle"></i> FIFA-certified football fields with hybrid turf technology</li>
+                <li><i class="fas fa-check-circle"></i> Indoor basketball and volleyball courts with sprung flooring</li>
+                <li><i class="fas fa-check-circle"></i> Fully equipped fitness center with cutting-edge equipment</li>
+            </ul>
+            
+            <a href="#" class="btn">Book a Class Today</a>
+        </div>
+    </section>
+
+    <!-- Facilities Section -->
+    <section class="facilities fade-in">
+        <h2>World-Class Facilities</h2>
+        <div class="search-bar">
+            <input type="text" placeholder="Search facilities...">
+            <i class="fas fa-search"></i>
+        </div>
+        <div class="facility-cards">
+            <div class="facility-card">
+                <img src="https://media.istockphoto.com/id/1176735816/photo/blue-tennis-court-and-illuminated-indoor-arena-with-fans-upper-front-view.jpg?s=612x612&w=0&k=20&c=er_NtUH-Rv4Kj9mUPOa1C2EwM0rL3YwXwazshoXjvVA=" alt="Tennis Courts">
+                <div class="card-content">
+                    <h3>Tennis Complex</h3>
+                    <p>15 professional courts with various surfaces including clay, grass, and hardcourt. Equipped with Hawk-Eye line calling technology.</p>
+                    <div class="features-list">
+                        <span>Lighted Courts</span>
+                        <span>Pro Shop</span>
+                        <span>Ball Machines</span>
+                        <span>Video Analysis</span>
+                    </div>
+                    <a href="#" class="btn">Explore Courts</a>
+                </div>
+            </div>
+            <div class="facility-card">
+                <img src="https://media.gettyimages.com/id/154461940/photo/the-aquatics-centre-london-2012-olympics-zaha-hadid-architects-overall-pool-interior-zaha.jpg?s=1024x1024&w=gi&k=20&c=eXC2IQt1lzkls0HbQs5rtF5uegw75fG5_a7qUypyPso=" alt="Swimming Pool">
+                <div class="card-content">
+                    <h3>Aquatic Center</h3>
+                    <p>Olympic-sized 50m pool with 10 lanes, diving platforms, and a separate recreational pool with water features.</p>
+                    <div class="features-list">
+                        <span>Heated Pool</span>
+                        <span>Diving Boards</span>
+                        <span>Swim Lessons</span>
+                        <span>Water Aerobics</span>
+                    </div>
+                    <a href="#" class="btn">View Schedule</a>
+                </div>
+            </div>
+            <div class="facility-card">
+                <img src="https://images.unsplash.com/photo-1518604666860-9ed391f76460?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Football Field">
+                <div class="card-content">
+                    <h3>Football Fields</h3>
+                    <p>Three FIFA-certified pitches with hybrid turf technology, professional irrigation systems, and stadium lighting.</p>
+                    <div class="features-list">
+                        <span>FIFA Certified</span>
+                        <span>Floodlights</span>
+                        <span>Seating</span>
+                        <span>Locker Rooms</span>
+                    </div>
+                    <a href="#" class="btn">Book Field</a>
+                </div>
+            </div>
+            <div class="facility-card">
+                <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Fitness Center">
+                <div class="card-content">
+                    <h3>Fitness Center</h3>
+                    <p>10,000 sq ft facility with cutting-edge cardio and strength equipment, functional training zones, and group exercise studios.</p>
+                    <div class="features-list">
+                        <span>Personal Training</span>
+                        <span>Group Classes</span>
+                        <span>Recovery Zone</span>
+                        <span>24/7 Access</span>
+                    </div>
+                    <a href="#" class="btn">Tour Facility</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Athlete Empowerment Section -->
+    <section class="empowerment fade-in">
+        <div class="image">
+            <img src="https://images.unsplash.com/photo-1552674605-db6ffd4facb5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Coach and Athlete">
+        </div>
+        <div class="content">
+            <h2>Empowering Athletes to Excel</h2>
+            <div class="item">
+                <div class="icon">10+</div>
+                <div>
+                    <h3>Years of Excellence</h3>
+                    <p>Our coaching staff brings over a decade of professional experience to help you reach your athletic potential.</p>
+                </div>
+            </div>
+            <div class="item">
+                <div class="icon">100%</div>
+                <div>
+                    <h3>Personalized Training</h3>
+                    <p>Every program is tailored to your unique goals, abilities, and progression timeline.</p>
+                </div>
+            </div>
+            <div class="item">
+                <div class="icon">∞</div>
+                <div>
+                    <h3>Continuous Support</h3>
+                    <p>Our commitment extends beyond training sessions with nutrition planning, recovery services, and performance analysis.</p>
+                </div>
+            </div>
+            <div class="item">
+                <div class="icon">5K+</div>
+                <div>
+                    <h3>Thriving Community</h3>
+                    <p>Join over 5,000 athletes who train at Velocity Club and participate in our exclusive events and tournaments.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
+<!-- Athlete Journey Section -->
+<section class="athlete-journey fade-in">
+  <h2>Journey of an Athlete</h2>
+  <div class="journey-track">
+    <div class="journey-step">Start<br><span>Joined Club</span></div>
+    <div class="journey-step">Week 1<br><span>Basic Training</span></div>
+    <div class="journey-step">Month 1<br><span>Endurance Boost</span></div>
+    <div class="journey-step">Month 3<br><span>Competition Ready</span></div>
+    <div class="journey-step">Month 6<br><span>Elite Level</span></div>
+  </div>
+</section>
+
+<!-- Pricing Section -->
+    <section class="pricing fade-in">
+        <h2>Membership Plans</h2>
+        <div class="pricing-plans">
+            <div class="pricing-plan">
+                <h3>Essential</h3>
+                <div class="price">50</div>
+                <p>Perfect for casual athletes</p>
+                <ul>
+                    <li><i class="fas fa-check"></i> Access to all facilities</li>
+                    <li><i class="fas fa-check"></i> 5 group classes/month</li>
+                    <li><i class="fas fa-check"></i> Locker room access</li>
+                    <li><i class="fas fa-times"></i> Personal training</li>
+                    <li><i class="fas fa-times"></i> Tournament entry</li>
+                    <li><i class="fas fa-times"></i> Recovery services</li>
+                </ul>
+                <a href="#" class="btn">Select Plan</a>
+            </div>
+            <div class="pricing-plan popular">
+                <h3>Performance</h3>
+                <div class="price">98</div>
+                <p>For dedicated athletes</p>
+                <ul>
+                    <li><i class="fas fa-check"></i> All Essential benefits</li>
+                    <li><i class="fas fa-check"></i> Unlimited group classes</li>
+                    <li><i class="fas fa-check"></i> 2 personal sessions/month</li>
+                    <li><i class="fas fa-check"></i> Tournament entry</li>
+                    <li><i class="fas fa-check"></i> Recovery services</li>
+                    <li><i class="fas fa-check"></i> Nutritional consultation</li>
+                </ul>
+                <a href="#" class="btn">Select Plan</a>
+            </div>
+            <div class="pricing-plan">
+                <h3>Elite</h3>
+                <div class="price">150</div>
+                <p>For competitive athletes</p>
+                <ul>
+                    <li><i class="fas fa-check"></i> All Performance benefits</li>
+                    <li><i class="fas fa-check"></i> 8 personal sessions/month</li>
+                    <li><i class="fas fa-check"></i> Video analysis</li>
+                    <li><i class="fas fa-check"></i> Priority court booking</li>
+                    <li><i class="fas fa-check"></i> Sports massage</li>
+                    <li><i class="fas fa-check"></i> Equipment discounts</li>
+                </ul>
+                <a href="#" class="btn">Select Plan</a>
+            </div>
+        </div>
+    </section>
+
+    
+
+<!-- Energy and Calorie Metrics Section -->
+<section class="metrics fade-in">
+  <h2>Track Your Progress</h2>
+  <div class="circular-metrics">
+    <div class="circle-card">
+      <div class="circle" data-value="75">
+        <svg>
+          <circle cx="60" cy="60" r="50"></circle>
+          <circle cx="60" cy="60" r="50" class="bar"></circle>
+        </svg>
+        <div class="circle-value">750 kcal</div>
+      </div>
+      <p>Calories Burned</p>
+    </div>
+    <div class="circle-card">
+      <div class="circle" data-value="80">
+        <svg>
+          <circle cx="60" cy="60" r="50"></circle>
+          <circle cx="60" cy="60" r="50" class="bar"></circle>
+        </svg>
+        <div class="circle-value">80%</div>
+      </div>
+      <p>Energy Level</p>
+    </div>
+    <div class="circle-card">
+      <div class="circle" data-value="65">
+        <svg>
+          <circle cx="60" cy="60" r="50"></circle>
+          <circle cx="60" cy="60" r="50" class="bar"></circle>
+        </svg>
+        <div class="circle-value">65%</div>
+      </div>
+      <p>Hydration</p>
+    </div>
+  </div>
+  <div class="cta-buttons" style="margin-top: 2rem;">
+    <a href="#" class="btn"><i class="fas fa-sync-alt"></i> Update Metrics</a>
+  </div>
+</section>
+
+<section class="metrics fade-in">
+  <h2>Track Your Progress</h2>
+  <div class="metric-cards">
+    <div class="metric">
+      <h3>Calories Burned</h3>
+      <progress value="750" max="1000"></progress>
+      <p>750 / 1000 kcal</p>
+    </div>
+    <div class="metric">
+      <h3>Energy Level</h3>
+      <progress value="80" max="100"></progress>
+      <p>80%</p>
+    </div>
+    <div class="metric">
+      <h3>Hydration Level</h3>
+      <progress value="65" max="100"></progress>
+      <p>65%</p>
+    </div>
+  </div>
+</section>
+
+<!-- Team Section -->
+    <section class="team fade-in">
+        <h2>Meet Our Elite Coaches</h2>
+        <div class="team-members">
+            <div class="team-member">
+                <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e" alt="Alex Josh">
+                <h3>Alex Josh</h3>
+                <span class="position">Head Tennis Coach</span>
+                <p>Former ATP top 100 player with 12 years of coaching experience at professional academies.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+            <div class="team-member">
+                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d" alt="Jerry Wilson">
+                <h3>Jerry Wilson</h3>
+                <span class="position">Fitness Director</span>
+                <p>Certified strength and conditioning specialist with expertise in athletic performance enhancement.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+            <div class="team-member">
+                <img src="https://media.istockphoto.com/id/852401732/photo/happy-personal-trainer-working-at-the-gym.jpg?s=612x612&w=0&k=20&c=m4Wk3lVvjEFIHbiAfUuFNBwEhvvSgf4Vv5ib9JUsrJk=" alt="Robert Fox">
+                <h3>Robert Fox</h3>
+                <span class="position">Head of Football</span>
+                <p>Former professional footballer with UEFA Pro License and 8 years of academy coaching experience.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
+<!-- Gallery Section -->
+<section class="gallery fade-in">
+  <h2>Athlete Highlights</h2>
+  <div class="gallery-images">
+    <img src="https://images.unsplash.com/photo-1599058917212-d750089bc03d" alt="Highlight 1">
+    <img src="https://images.unsplash.com/photo-1584467735871-d664d47c6e2c" alt="Highlight 2">
+    <img src="https://images.unsplash.com/photo-1600185365483-26d7d80b70b2" alt="Highlight 3">
+  </div>
+</section>
+
+<!-- Footer Section -->
+    <footer class="fade-in">
+        <div class="footer-content">
+            <div>
+                <h3>Velocity Club</h3>
+                <p>Where champions are made. Elevate your game with our world-class facilities and expert coaching.</p>
+                <div class="social-icons" style="margin-top: 1.5rem; justify-content: flex-start;">
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            <div>
+                <h3>Facilities</h3>
+                <ul>
+                    <li><a href="#"><i class="fas fa-tennis-ball"></i> Tennis Courts</a></li>
+                    <li><a href="#"><i class="fas fa-swimming-pool"></i> Swimming Pools</a></li>
+                    <li><a href="#"><i class="fas fa-futbol"></i> Football Fields</a></li>
+                    <li><a href="#"><i class="fas fa-basketball-ball"></i> Basketball Courts</a></li>
+                    <li><a href="#"><i class="fas fa-dumbbell"></i> Fitness Center</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="#"><i class="fas fa-calendar-alt"></i> Events</a></li>
+                    <li><a href="#"><i class="fas fa-user-friends"></i> Membership</a></li>
+                    <li><a href="#"><i class="fas fa-newspaper"></i> Blog</a></li>
+                    <li><a href="#"><i class="fas fa-phone-alt"></i> Contact</a></li>
+                </ul>
+            </div>
+            <div class="newsletter">
+                <h3>Join Our Newsletter</h3>
+                <p>Stay updated with our latest news, events, and special offers.</p>
+                <form>
+                    <input type="text" placeholder="Your Name">
+                    <input type="email" placeholder="Email Address">
+                    <button class="btn">Subscribe Now</button>
+                </form>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>© 2025 Velocity Club. All Rights Reserved. | Designed with <i class="fas fa-heart" style="color: #fd7e14;"></i> for Athletes</p>
+        </div>
+    </footer>
+
+    <script>
+        // Hide loader after page load
+        window.addEventListener('load', () => {
+            document.querySelector('.loader').style.display = 'none';
+        });
+
+        // Custom Cursor
+        const cursor = document.querySelector('.cursor');
+        const follower = document.querySelector('.cursor-follower');
+        
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+            
+            setTimeout(() => {
+                follower.style.left = e.clientX + 'px';
+                follower.style.top = e.clientY + 'px';
+            }, 100);
+        });
+        
+        // Hover effects for cursor
+        const hoverElements = document.querySelectorAll('a, button, .btn, .feature-card, .facility-card, .pricing-plan, .team-member, .refer-friend, input[type="text"], input[type="email"], .carousel-dots .dot');
+        
+        hoverElements.forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                cursor.classList.add('active');
+            });
+            
+            el.addEventListener('mouseleave', () => {
+                cursor.classList.remove('active');
+            });
+            
+            el.addEventListener('mousedown', () => {
+                cursor.classList.add('click');
+            });
+            
+            el.addEventListener('mouseup', () => {
+                cursor.classList.remove('click');
+            });
+        });
+
+        // Back to top button
+        const backToTopBtn = document.querySelector('.back-to-top');
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 500) {
+                backToTopBtn.classList.add('visible');
+            } else {
+                backToTopBtn.classList.remove('visible');
+            }
+        });
+        
+        backToTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Carousel functionality
+        const dots = document.querySelectorAll('.carousel-dots .dot');
+        let currentDot = 0;
+        
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                dots.forEach(d => d.classList.remove('active'));
+                dot.classList.add('active');
+                currentDot = index;
+            });
+        });
+        
+        // Auto rotate carousel
+        setInterval(() => {
+            currentDot = (currentDot + 1) % dots.length;
+            dots.forEach(d => d.classList.remove('active'));
+            dots[currentDot].classList.add('active');
+        }, 5000);
+
+        
+// Animate Circular Meters
+document.querySelectorAll(".circle").forEach(circle => {
+  const value = circle.getAttribute("data-value");
+  const bar = circle.querySelector(".bar");
+  const offset = 314 - (314 * value / 100);
+  setTimeout(() => {
+    bar.style.strokeDashoffset = offset;
+  }, 500);
+});
+
+        // Animation on scroll for elements
+        const fadeElements = document.querySelectorAll('.fade-in');
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animation = 'fadeIn 1s forwards';
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+        
+        fadeElements.forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
